@@ -13,7 +13,7 @@ int main( int argc, char **argv )
 {
 	if(argc != 3)
 		{
-			printf("Usage: ./server <port> <path to root>");	
+			printf("Usage: ./server <port> <path to root>\n");	
 			return 0;
 		}
 
@@ -22,7 +22,7 @@ int main( int argc, char **argv )
 	
 	if(chdir(dir) == -1)
 		{
-			printf("Could not change to directory: %s", dir);
+			printf("Could not change to directory: %s\n", dir);
 			return 0;
 		}
 
@@ -38,13 +38,17 @@ int main( int argc, char **argv )
 	inet_pton(AF_INET, ip, &(address.sin_addr));
 	
 	setsockopt(s1, SOL_SOCKET, SO_REUSEADDR, &optval , sizeof(optval));
+	
 	listen(s1, 1);
 	struct sockaddr_storage otherAddress;
 	socklen_t otherSize = sizeof(otherAddress);
 	int otSoc;
+	
 	otSoc = accept(s1, (struct sockaddr*) &otherAddress, &otherSize);
 	
+	char buffer[100];
 	
+	recv(otSoc, buffer, 100, 0);
 	
-	
+	printf("BUFFER---  : \n\n\n%s", buffer);	
 }
